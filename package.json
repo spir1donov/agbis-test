@@ -19,7 +19,8 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "upload": "rsync -avz --exclude .git --exclude-from .gitignore -e ssh . root@gladstone.ateekeen.com:/var/app/agbis-test"
   },
   "eslintConfig": {
     "extends": "react-app"
