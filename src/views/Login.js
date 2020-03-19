@@ -94,6 +94,7 @@ export default class Login extends Component {
               </FormGroup>
               <Button
                 onClick={this.onSubmit}
+                intent={Intent.PRIMARY}
               >
                 Вход
               </Button>
