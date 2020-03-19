@@ -52,6 +52,8 @@ export default function withAuth (ComponentToProtect) {
     }
 
     handleOrdersLoad = () => {
+      const errText = 'Ошибка загрузки заказов.'
+
       fetch('/cl/test/api/?Orders=' + JSON.stringify({
         sclad: 1,
         need_serv: 1
@@ -65,14 +67,14 @@ export default function withAuth (ComponentToProtect) {
             })
           else
             AppToaster.show({
-              message: `Ошибка загрузки заказов. ${JSON.stringify(rest)}`,
+              message: `${errText} ${JSON.stringify(rest)}`,
               intent: Intent.PRIMARY,
               icon: 'error'
             })
         })
         .catch(e => {
           AppToaster.show({
-            message: `Ошибка загрузки заказов. ${e}`,
+            message: `${errText} ${e}`,
             intent: Intent.PRIMARY,
             icon: 'error'
           })
