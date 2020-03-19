@@ -89,6 +89,8 @@ export default function withAuth (ComponentToProtect) {
       }
       return <ComponentToProtect
         {...this.state}
+        handleOrdersLoad={this.handleOrdersLoad.bind(this)}
+        orders={this.state.orders}
       />
     }
   }
