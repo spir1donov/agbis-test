@@ -13,6 +13,7 @@ export default function withAuth (ComponentToProtect) {
         accounts: [],
         loading: true,
         redirect: false,
+        sessionId: ''
       }
     }
 
@@ -30,7 +31,7 @@ export default function withAuth (ComponentToProtect) {
         })
         this.setState({ loading: false, redirect: true })
       } else {
-        this.setState({ loading: false })
+        this.setState({ loading: false, sessionId: sessionId })
       }
     }
 
