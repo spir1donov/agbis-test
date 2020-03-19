@@ -10,7 +10,7 @@ export default function withAuth (ComponentToProtect) {
 
       this.state = {
         ...this.props,
-        accounts: [],
+        orders: [],
         loading: true,
         redirect: false,
         sessionId: ''
@@ -51,6 +51,33 @@ export default function withAuth (ComponentToProtect) {
       return null
     }
 
+    handleOrdersLoad = () => {
+      fetch('/cl/test/api/?Orders=' + JSON.stringify({
+        sclad: 1,
+        need_serv: 1
+      }) + '&SessionID=' + this.state.sessionId)
+        .then(res => res.json())
+        .then(response => {
+          const { error, ...rest } = response
+          if (!error)
+            this.setState({
+              orders: rest.orders
+            })
+          else
+            AppToaster.show({
+              message: `Ошибка загрузки заказов. ${JSON.stringify(rest)}`,
+              intent: Intent.PRIMARY,
+              icon: 'error'
+            })
+        })
+        .catch(e => {
+          AppToaster.show({
+            message: `Ошибка загрузки заказов. ${e}`,
+            intent: Intent.PRIMARY,
+            icon: 'error'
+          })
+        })
+    }
 
     render() {
       const { loading, redirect } = this.state
