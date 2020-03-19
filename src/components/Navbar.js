@@ -26,6 +26,9 @@ export default class NavigationBar extends Component {
         </Navbar.Group>
         <Navbar.Group align={Alignment.RIGHT} className="hide-mobile">
           <Divider />
+          <Link className="bp3-button bp3-minimal" to="/client">
+            {this.props.clientData ? decodeURIComponent(this.props.clientData.short_name) : '...'}
+          </Link>
           <Link className="bp3-button bp3-minimal" to="/logout">Выход</Link>
         </Navbar.Group>
       </Navbar>

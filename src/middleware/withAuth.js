@@ -10,6 +10,7 @@ export default function withAuth (ComponentToProtect) {
 
       this.state = {
         ...this.props,
+        clientData: null,
         orders: [],
         loading: true,
         redirect: false,
@@ -31,7 +32,7 @@ export default function withAuth (ComponentToProtect) {
         })
         this.setState({ loading: false, redirect: true })
       } else {
-        this.setState({ loading: false, sessionId: sessionId })
+        this.setState({ loading: false, sessionId: sessionId }, this.handleClientDataLoad)
       }
     }
 
@@ -81,6 +82,33 @@ export default function withAuth (ComponentToProtect) {
         })
     }
 
+    handleClientDataLoad = () => {
+      const errText = 'Ошибка загрузки информации по клиенту.'
+
+      fetch('/cl/test/api/?ContrInfo&SessionID=' + this.state.sessionId)
+        .then(res => res.json())
+        .then(response => {
+          const { error, ...rest } = response
+          if (!error)
+            this.setState({
+              clientData: rest
+            })
+          else
+            AppToaster.show({
+              message: `${errText} ${JSON.stringify(rest)}`,
+              intent: Intent.PRIMARY,
+              icon: 'error'
+            })
+        })
+        .catch(e => {
+          AppToaster.show({
+            message: `${errText} ${e}`,
+            intent: Intent.PRIMARY,
+            icon: 'error'
+          })
+        })
+    }
+
     render() {
       const { loading, redirect } = this.state
       if (loading) {
@@ -93,6 +121,7 @@ export default function withAuth (ComponentToProtect) {
         {...this.state}
         handleOrdersLoad={this.handleOrdersLoad.bind(this)}
         orders={this.state.orders}
+        clientData={this.state.clientData}
       />
     }
   }
